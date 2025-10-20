@@ -14,50 +14,64 @@
   <div class="left" id="left-list">
     <!-- Користувачі будуть тут -->
   </div>
-  
-<!--
-  <div class="right" id="top-three">
-    <h2>Топ за минулий місяць</h2>
+
+  <div class="right">
+    <h2>Топ за загальну суму</h2>
     <div id="podium"></div>
+
+    <h2>Топ по найбільшій разовій сумі</h2>
+    <div id="top-sums"></div>
   </div>
--->
 </div>
 
 <script>
   const participants = [
-    {name: "User", salary: 1200},
-    {name: "User", salary: 1500},
-    {name: "User", salary: 900},
-    {name: "User", salary: 1100},
-    {name: "User", salary: 1300},
-    {name: "User", salary: 1250},
-    {name: "User", salary: 1400},
-    {name: "User", salary: 1150},
-    {name: "User", salary: 1000},
-    {name: "User", salary: 1350},
-    {name: "User", salary: 1600},
-    {name: "User", salary: 950},
-    {name: "User", salary: 1050},
-    {name: "User", salary: 1230},
-    {name: "User", salary: 1420},
-    {name: "User", salary: 1170},
-    {name: "User", salary: 1280},
-    {name: "User", salary: 0},
+    {name: "User 1", salaries: [0, 0, 0]}, 
+    {name: "User 2", salaries: [0, 0, 0]},
+    {name: "User 3", salaries: [0, 0, 0]},
+    {name: "User 4", salaries: [0, 0, 0]},
+    {name: "User 5", salaries: [0, 0, 0]},
+    {name: "User 6", salaries: [0, 0, 0]},
+    {name: "User 7", salaries: [0, 0, 0]},
+    {name: "User 8", salaries: [0, 0, 0]},
+    {name: "User 9", salaries: [0, 0, 0]},
+    {name: "User 10", salaries: [0, 0, 0]},
+    {name: "User 11", salaries: [0, 0, 0]},
+    {name: "User 12", salaries: [0, 0, 0]},
+    {name: "User 13", salaries: [0, 0, 0]},
+    {name: "User 14", salaries: [0, 0, 0]},
+    {name: "User 15", salaries: [0, 0, 0]},
+    {name: "User 16", salaries: [0, 0, 0]},
+    {name: "User 17", salaries: [0, 0, 0]},
+    {name: "User 18", salaries: [0, 0, 0]},
   ];
 
   const leftList = document.getElementById("left-list");
 
-  participants.sort((a, b) => b.salary - a.salary);
-  const maxSalary = Math.max(...participants.map(p => p.salary));
-
+  // Підсумовуємо заробіток кожного користувача і визначаємо найбільшу разову суму
   participants.forEach(p => {
+    p.totalSalary = p.salaries.reduce((acc, salary) => acc + salary, 0);
+    p.maxSalary = Math.max(...p.salaries);
+  });
+
+  // Створюємо копію масиву для кожного топу перед сортуванням
+  const participantsCopyForTotal = [...participants]; // Копія для загальної суми
+  const participantsCopyForMaxSalary = [...participants]; // Копія для найбільшої разової суми
+
+  // Сортуємо копію масиву по загальній сумі заробітку
+  participantsCopyForTotal.sort((a, b) => b.totalSalary - a.totalSalary);
+
+  const maxSalary = Math.max(...participants.map(p => p.totalSalary));
+
+  // Створюємо ліву частину (список користувачів з їх зарплатами)
+  participantsCopyForTotal.forEach(p => {
     const personDiv = document.createElement("div");
     personDiv.className = "person";
 
     // Створюємо бар
     const bar = document.createElement("div");
     bar.className = "person-bar";
-    const barWidthPercent = (p.salary / maxSalary * 100);
+    const barWidthPercent = (p.totalSalary / maxSalary * 100);
     bar.style.width = barWidthPercent + "%";
     bar.style.backgroundColor = "#36142a";
 
@@ -75,7 +89,7 @@
 
     const salaryDiv = document.createElement("div");
     salaryDiv.className = "person-salary";
-    salaryDiv.textContent = p.salary + " ₴";
+    salaryDiv.textContent = p.totalSalary + " $";
 
     content.appendChild(icon);
     content.appendChild(nameDiv);
@@ -85,7 +99,7 @@
     personDiv.appendChild(content);
     leftList.appendChild(personDiv);
 
-    // Перевіряємо, чи ТЕКСТ знаходиться поверх бару (окремо для кожного елементу)
+    // Перевіряємо, чи ТЕКСТ знаходиться поверх бару
     requestAnimationFrame(() => {
       const barRect = bar.getBoundingClientRect();
       const nameRect = nameDiv.getBoundingClientRect();
@@ -110,46 +124,85 @@
         icon.style.color = "#fff";
       }
     });
-
-  
-    
   });
 
+  // П'єдестал для загальної суми
   const podium = document.getElementById("podium");
-const topThree = participants.slice(0, 3);
+  const topThreeTotal = participantsCopyForTotal.slice(0, 3);
 
-// Щоб п’єдестал виглядав правильно: [3, 1, 2]
-const order = [2, 0, 1];
+  // Порядок для п'єдестала
+  const order = [1, 0, 2]; //Порядок виведення тому по загальній сумі
 
-order.forEach((i, displayIndex) => {
-  const p = topThree[i];
-  const placeDiv = document.createElement("div");
-  placeDiv.className = `podium-place place-${displayIndex + 1}`;
+  order.forEach((i, displayIndex) => {
+    const p = topThreeTotal[i];
+    const placeDiv = document.createElement("div");
+    placeDiv.className = `podium-place place-${displayIndex + 1}`;
 
-  const icon = document.createElement("div");
-  icon.className = "person-icon";
-  icon.textContent = p.name.charAt(0).toUpperCase();
+    const icon = document.createElement("div");
+    icon.className = "person-icon";
+    icon.textContent = p.name.charAt(0).toUpperCase();
 
-  const placeLabel = document.createElement("div");
-  placeLabel.className = "place-label";
-  placeLabel.textContent = `№${i + 1}`;
+    const placeLabel = document.createElement("div");
+    placeLabel.className = "place-label";
+    placeLabel.textContent = `№${i + 1}`;
 
-  const name = document.createElement("div");
-  name.className = "person-name";
-  name.textContent = p.name;
+    const name = document.createElement("div");
+    name.className = "person-name";
+    name.textContent = p.name;
 
-  const salary = document.createElement("div");
-  salary.className = "person-salary";
-  salary.textContent = p.salary + " ₴";
+    const salary = document.createElement("div");
+    salary.className = "person-salary";
+    salary.textContent = p.totalSalary + " ₴";
 
-  placeDiv.appendChild(icon);
-  placeDiv.appendChild(placeLabel);
-  placeDiv.appendChild(name);
-  placeDiv.appendChild(salary);
+    placeDiv.appendChild(icon);
+    placeDiv.appendChild(placeLabel);
+    placeDiv.appendChild(name);
+    placeDiv.appendChild(salary);
 
-  podium.appendChild(placeDiv);
-});
+    podium.appendChild(placeDiv);
+  });
+
+
+  participantsCopyForMaxSalary.sort((a, b) => b.maxSalary - a.maxSalary);
+
+
+  const topSums = document.getElementById("top-sums");
+  const topThreeSums = participantsCopyForMaxSalary.slice(0, 3);
+
+
+  const orderSums = [1, 0, 2]; //Порядок виведення топу по разовій сумі
+
+  orderSums.forEach((i, displayIndex) => {
+    const p = topThreeSums[i];
+    const placeDiv = document.createElement("div");
+    placeDiv.className = `podium-place-sum place-sum-${displayIndex + 1}`;
+
+    const icon = document.createElement("div");
+    icon.className = "person-icon";
+    icon.textContent = p.name.charAt(0).toUpperCase();
+
+    const placeLabel = document.createElement("div");
+    placeLabel.className = "place-label";
+    placeLabel.textContent = `№${displayIndex + 1}`;
+
+    const name = document.createElement("div");
+    name.className = "person-name";
+    name.textContent = p.name;
+
+    const salary = document.createElement("div");
+    salary.className = "person-salary";
+    salary.textContent = p.maxSalary + " ₴";
+
+    placeDiv.appendChild(icon);
+    placeDiv.appendChild(placeLabel);
+    placeDiv.appendChild(name);
+    placeDiv.appendChild(salary);
+
+    topSums.appendChild(placeDiv);
+  });
 </script>
+
+
 
 </body>
 </html>
