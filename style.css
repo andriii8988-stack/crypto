@@ -1,8 +1,17 @@
 body {
       font-family: Arial, sans-serif;
       margin: 0; padding: 0;
-    
       background-image: url('btc.png');
+      background-size: cover;
+      background-position: left center;
+      background-repeat: no-repeat;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        background-position: right top;
+      }
+      
     }
 
     header {
@@ -10,7 +19,7 @@ body {
       color: white;
       padding: 20px;
       text-align: center;
-      font-size: 24px;
+      font-size: 36px;
     }
 
     .container {
@@ -27,6 +36,8 @@ body {
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       max-height: 600px;
       overflow-y: auto;
+      overflow: auto;
+      scrollbar-width: none;
     }
 
     .person {
@@ -79,5 +90,91 @@ body {
       white-space: nowrap;
       font-weight: bold;
       color: #222;
-
+      margin-right: 24px;
     }
+
+
+
+
+
+
+  .right {
+  flex: 0 0 40%;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.right h2 {
+  margin-top: 0;
+  font-size: 20px;
+  color: #36142a;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .right {
+    flex: 1;
+    margin-top: 20px;
+  }
+}
+
+
+
+#podium {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+  height: 200px;
+}
+
+.podium-place {
+  flex: 1;
+  text-align: center;
+  border-radius: 6px;
+  background-color: #36142a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
+.podium-place .person-icon {
+  background: #fff;
+  color: #36142a;
+  margin-bottom: 6px;
+}
+
+.podium-place .person-name {
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.podium-place .person-salary {
+  font-size: 14px;
+  color: #fff;
+}
+
+.place-1 {
+  height: 100%;
+}
+
+.place-2 {
+  height: 80%;
+}
+
+.place-3 {
+  height: 60%;
+}
+

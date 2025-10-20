@@ -14,6 +14,13 @@
   <div class="left" id="left-list">
     <!-- Користувачі будуть тут -->
   </div>
+  
+<!--
+  <div class="right" id="top-three">
+    <h2>Топ за минулий місяць</h2>
+    <div id="podium"></div>
+  </div>
+-->
 </div>
 
 <script>
@@ -35,7 +42,7 @@
     {name: "User", salary: 1420},
     {name: "User", salary: 1170},
     {name: "User", salary: 1280},
-    {name: "User", salary: 980},
+    {name: "User", salary: 0},
   ];
 
   const leftList = document.getElementById("left-list");
@@ -103,7 +110,45 @@
         icon.style.color = "#fff";
       }
     });
+
+  
+    
   });
+
+  const podium = document.getElementById("podium");
+const topThree = participants.slice(0, 3);
+
+// Щоб п’єдестал виглядав правильно: [3, 1, 2]
+const order = [2, 0, 1];
+
+order.forEach((i, displayIndex) => {
+  const p = topThree[i];
+  const placeDiv = document.createElement("div");
+  placeDiv.className = `podium-place place-${displayIndex + 1}`;
+
+  const icon = document.createElement("div");
+  icon.className = "person-icon";
+  icon.textContent = p.name.charAt(0).toUpperCase();
+
+  const placeLabel = document.createElement("div");
+  placeLabel.className = "place-label";
+  placeLabel.textContent = `№${i + 1}`;
+
+  const name = document.createElement("div");
+  name.className = "person-name";
+  name.textContent = p.name;
+
+  const salary = document.createElement("div");
+  salary.className = "person-salary";
+  salary.textContent = p.salary + " ₴";
+
+  placeDiv.appendChild(icon);
+  placeDiv.appendChild(placeLabel);
+  placeDiv.appendChild(name);
+  placeDiv.appendChild(salary);
+
+  podium.appendChild(placeDiv);
+});
 </script>
 
 </body>
