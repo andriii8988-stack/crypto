@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crypto</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>Crypto</header>
+
+<div class="container">
+  <div class="left" id="left-list">
+    <!-- Користувачі будуть тут -->
+  </div>
+</div>
+
+<script>
+  const participants = [
+    {name: "User", salary: 1200},
+    {name: "User", salary: 1500},
+    {name: "User", salary: 900},
+    {name: "User", salary: 1100},
+    {name: "User", salary: 1300},
+    {name: "User", salary: 1250},
+    {name: "User", salary: 1400},
+    {name: "User", salary: 1150},
+    {name: "User", salary: 1000},
+    {name: "User", salary: 1350},
+    {name: "User", salary: 1600},
+    {name: "User", salary: 950},
+    {name: "User", salary: 1050},
+    {name: "User", salary: 1230},
+    {name: "User", salary: 1420},
+    {name: "User", salary: 1170},
+    {name: "User", salary: 1280},
+    {name: "User", salary: 980},
+  ];
+
+  const leftList = document.getElementById("left-list");
+
+  participants.sort((a, b) => b.salary - a.salary);
+  const maxSalary = Math.max(...participants.map(p => p.salary));
+
+  participants.forEach(p => {
+    const personDiv = document.createElement("div");
+    personDiv.className = "person";
+
+    // Створюємо бар
+    const bar = document.createElement("div");
+    bar.className = "person-bar";
+    const barWidthPercent = (p.salary / maxSalary * 100);
+    bar.style.width = barWidthPercent + "%";
+    bar.style.backgroundColor = "#36142a";
+
+    // Контент
+    const content = document.createElement("div");
+    content.className = "person-content";
+
+    const icon = document.createElement("div");
+    icon.className = "person-icon";
+    icon.textContent = p.name.charAt(0).toUpperCase();
+
+    const nameDiv = document.createElement("div");
+    nameDiv.className = "person-name";
+    nameDiv.textContent = p.name;
+
+    const salaryDiv = document.createElement("div");
+    salaryDiv.className = "person-salary";
+    salaryDiv.textContent = p.salary + " ₴";
+
+    content.appendChild(icon);
+    content.appendChild(nameDiv);
+    content.appendChild(salaryDiv);
+
+    personDiv.appendChild(bar);
+    personDiv.appendChild(content);
+    leftList.appendChild(personDiv);
+
+    // Перевіряємо, чи ТЕКСТ знаходиться поверх бару (окремо для кожного елементу)
+    requestAnimationFrame(() => {
+      const barRect = bar.getBoundingClientRect();
+      const nameRect = nameDiv.getBoundingClientRect();
+      const salaryRect = salaryDiv.getBoundingClientRect();
+      const iconRect = icon.getBoundingClientRect();
+
+      const isInsideBar = (rect) => {
+        const mid = rect.left + rect.width / 2;
+        return mid < (barRect.left + barRect.width);
+      };
+
+      // Ім’я
+      nameDiv.style.color = isInsideBar(nameRect) ? "#fff" : "#000";
+      // Сума
+      salaryDiv.style.color = isInsideBar(salaryRect) ? "#fff" : "#000";
+      // Іконка
+      if (isInsideBar(iconRect)) {
+        icon.style.backgroundColor = "#fff";
+        icon.style.color = "#36142a";
+      } else {
+        icon.style.backgroundColor = "#36142a";
+        icon.style.color = "#fff";
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
