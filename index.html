@@ -26,8 +26,9 @@
 
 <script>
   const participants = [
-    {name: "User 1", salaries: [0, 0, 0]}, 
-    {name: "User 2", salaries: [0, 0, 0]},
+    {name: "Виталик new", salaries: [286656, 0, 0]}, 
+    {name: "Таня", salaries: [5090, 0, 0]},
+    /*
     {name: "User 3", salaries: [0, 0, 0]},
     {name: "User 4", salaries: [0, 0, 0]},
     {name: "User 5", salaries: [0, 0, 0]},
@@ -44,6 +45,7 @@
     {name: "User 16", salaries: [0, 0, 0]},
     {name: "User 17", salaries: [0, 0, 0]},
     {name: "User 18", salaries: [0, 0, 0]},
+    */
   ];
 
   const leftList = document.getElementById("left-list");
@@ -90,7 +92,7 @@
     const salaryDiv = document.createElement("div");
     salaryDiv.className = "person-salary";
     salaryDiv.textContent = p.totalSalary + " $";
-
+    
     content.appendChild(icon);
     content.appendChild(nameDiv);
     content.appendChild(salaryDiv);
@@ -152,7 +154,7 @@
 
     const salary = document.createElement("div");
     salary.className = "person-salary";
-    salary.textContent = p.totalSalary + " ₴";
+    salary.textContent = p.totalSalary + " $";
 
     placeDiv.appendChild(icon);
     placeDiv.appendChild(placeLabel);
@@ -191,18 +193,14 @@
 
     const salary = document.createElement("div");
     salary.className = "person-salary";
-    salary.textContent = p.maxSalary + " ₴";
+    salary.textContent = p.maxSalary + " $";
 
     placeDiv.appendChild(icon);
     placeDiv.appendChild(placeLabel);
     placeDiv.appendChild(name);
     placeDiv.appendChild(salary);
-
     topSums.appendChild(placeDiv);
   });
 </script>
-
-
-
 </body>
 </html>
